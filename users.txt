@@ -1,0 +1,15 @@
+"ManagementStaff"
+    "email":"pasindu@gmail.com",
+    "password":"Pasindu123@"
+
+"Site-Manager"
+    "email":"madushan@gmail.com",
+    "password":"Madushan123@"
+
+"Accountant"
+    "email":"mithila@gmail.com",
+    "password":"Mithila123@"
+
+"Supplier"
+    "email":"Wickaramasinghe@gmail.com",
+    "password":"Wickaramasinghe123@"
