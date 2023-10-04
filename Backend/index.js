@@ -18,5 +18,5 @@ app.use('/api/user', user_router)
 db();
 
 app.listen(PORT, () => {
-  console.log(`There server is up and running on ${PORT}`)
+  console.log(`The server is up and running on ${PORT}`)
 });

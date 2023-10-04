@@ -1,4 +1,4 @@
-import Management from "../models/user/management-staff.js";
+import Users from "../models/user/user.js";
 import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 import { validateEmail, validatePWD } from "../validations/user-validation.js";
@@ -12,7 +12,7 @@ const createToken = (_id) => {
 
 const signUp = async (req, res) => {
 
-  const { name, mobile, email, password } = req.body;
+  const { name, mobile, email, password, role, shopName, shopAddress } = req.body;
 
   if (!name || !mobile || !email || !password) {
     return res.status(422).json({ message: "All feilds should be filled" })
@@ -25,19 +25,19 @@ const signUp = async (req, res) => {
     return res.status(400).json({ message: "Please provide valid Password" })
   }
   try {
-    let existingManagementStaff;
+    let existingUsers;
     //chaecking whether user already sign up or not based on the email
     try {
-      existingManagementStaff = await Management.findOne({ $or: [{ email: email }, { mobile: mobile }] });
+      existingUsers = await Users.findOne({ $or: [{ email: email }, { mobile: mobile }] });
     } catch (err) {
       console.error(err);
     }
 
-    if (existingManagementStaff) {
-      if (existingManagementStaff.email == email) {
+    if (existingUsers) {
+      if (existingUsers.email == email) {
         return res.status(409).json({ message: "A User is already signUp with this email" })
       }
-      else if (existingManagementStaff.mobile == mobile) {
+      else if (existingUsers.mobile == mobile) {
         return res.status(409).json({ message: "A User is already signUp with this mobile" })
       }
 
@@ -48,15 +48,18 @@ const signUp = async (req, res) => {
     const hashedpassword = await bcrypt.hash(password, salt);
 
     //creating a new User
-    const management = new Management({
+    const user = new Users({
       name,
       mobile,
       email,
-      password: hashedpassword
+      password: hashedpassword,
+      role,
+      shopName,
+      shopAddress
     });
 
-    await management.save();
-    return res.status(201).json({ message: "Account Creation is success, Login to your account", Management: management })//sending the new user details with token as a message for the response
+    await user.save();
+    return res.status(201).json({ message: "Account Creation is success, Login to your account", Users: user })//sending the new user details with token as a message for the response
 
   } catch (err) {
     console.error(err)
@@ -74,24 +77,24 @@ const login = async (req, res) => {
     return res.status(422).json({ message: "All feilds should be filled" })
   }
 
-  let loggedManagementStaff;
+  let loggedUser;
   try {
-    loggedManagementStaff = await Management.findOne({ email: email });
+    loggedUser = await Users.findOne({ email: email });
 
-    if (!loggedManagementStaff) {
-      return res.status(404).json({ message: "ManagementStaff is not found. Sign Up instead" })
+    if (!loggedUser) {
+      return res.status(404).json({ message: "User is not found. Sign Up instead" })
     }
 
     //checking password and comare it with exist user's password in the db
-    const isPasswordCorrect = bcrypt.compareSync(password, loggedManagementStaff.password);
+    const isPasswordCorrect = bcrypt.compareSync(password, loggedUser.password);
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: "Invalid password" })
     }
 
     //Create and setting a cookie with the user's ID and token
-    const token = createToken(loggedManagementStaff._id, loggedManagementStaff.role);
+    const token = createToken(loggedUser._id, loggedUser.role);
 
-    res.cookie(`User:${String(loggedManagementStaff._id)}`, token, {
+    res.cookie(String(loggedUser._id), token, {
       path: "/",
       expires: new Date(Date.now() + 1000 * 60 * 60),
       httpOnly: true,//if this option isn't here cookie will be visible to the frontend
@@ -99,7 +102,7 @@ const login = async (req, res) => {
     })
 
     //we send this msg along with the token and user details
-    return res.status(200).json({ message: "Successfully logged in", ManagementStaff: loggedManagementStaff, token })
+    return res.status(200).json({ message: "Successfully logged in", ManagementStaff: loggedUser, token })
   } catch (err) {
     console.log(err)
     return res.status(500).json({ message: "Error occured during Login! Please contact server administrator", error: err });
@@ -112,13 +115,13 @@ const getprofile = async (req, res) => {
 
   try {
 
-    const managementStaff = await Management.findById(userId, "-password")
+    const user = await Users.findById(userId, "-password")
 
-    if (!managementStaff) {
-      return res.status(404).json({ message: "ManagementStaff is not found" })
+    if (!user) {
+      return res.status(404).json({ message: "User is not found" })
     }
     else {
-      res.status(200).json({ managementStaff })
+      res.status(200).json({ user })
     }
   } catch (err) {
     console.log(err)
@@ -129,6 +132,11 @@ const getprofile = async (req, res) => {
 const logout = (req, res) => {
   const uId = req.userId;//request user Id from the token
   const cookies = req.headers.cookie;//request cookie from the header
+
+  if (!cookies) {
+    console.error("cookie not found")
+    return res.status(403).json({ message: "Login first" })
+  }
 
   //exttracting token from the cookies
   const previousToken = cookies.split("=")[1];

@@ -30,9 +30,65 @@ const checkToken = async (req, res, next) => {
     }
 
   } catch (err) {
-    res.status(401).json({ message: "Invalid Token" })
+    console.log(err)
+    return res.status(401).json({ message: "Invalid Token" })
+  }
+}
+
+const ManagementRole = async (req, res, next) => {
+
+  try {
+    if (req.roleIs === "management-staff") {
+      next();
+    } else {
+      res.status(403).json("unauthorized")
+    }
+  } catch (err) {
+    res.status(500).json({ message: "error in authorization" })
     console.log(err)
   }
 }
 
-export { checkToken }
+const siteManagerRole = async (req, res, next) => {
+
+  try {
+    if (req.roleIs === "site-manager") {
+      next();
+    } else {
+      res.status(403).json("unauthorized")
+    }
+  } catch (err) {
+    res.status(500).json({ message: "error in authorization" })
+    console.log(err)
+  }
+}
+
+const accountRole = async (req, res, next) => {
+
+  try {
+    if (req.roleIs === "accountant") {
+      next();
+    } else {
+      res.status(403).json("unauthorized")
+    }
+  } catch (err) {
+    res.status(500).json({ message: "error in authorization" })
+    console.log(err)
+  }
+}
+
+const supplierRole = async (req, res, next) => {
+
+  try {
+    if (req.roleIs === "supplier") {
+      next();
+    } else {
+      res.status(403).json("unauthorized")
+    }
+  } catch (err) {
+    res.status(500).json({ message: "error in authorization" })
+    console.log(err)
+  }
+}
+
+export { checkToken, ManagementRole, siteManagerRole, supplierRole }
