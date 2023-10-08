@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/constants.dart';
+import 'package:mobile/utils/shared_prefs.dart';
 
 class MyDrawer extends StatelessWidget {
   final HeaderAlignment alignment;
@@ -41,7 +42,7 @@ class MyDrawer extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Site Manager',
+                        'Site: Uduwalewa High',
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -106,6 +107,20 @@ class MyDrawer extends StatelessWidget {
                     Navigator.pop(context);
                   },
                 ),
+                ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+                  leading: const Icon(
+                    Icons.location_searching,
+                    color: Colors.white,
+                  ),
+                  title: const Text(
+                    'My Sites',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
               ],
             ),
           ),
@@ -123,8 +138,10 @@ class MyDrawer extends StatelessWidget {
               'Logout',
               style: TextStyle(color: Colors.white),
             ),
-            onTap: () {
+            onTap: () async {
               Navigator.pop(context);
+              String val = await MySharedPreferences.getString('serverIp');
+              print(val);
             },
           ),
           const Divider(

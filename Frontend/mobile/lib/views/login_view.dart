@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/constants.dart';
+import 'package:mobile/utils/shared_prefs.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -9,9 +10,49 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  
+  
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // Function to display the text input popup
+  void _showIpInputField(BuildContext context) {
+    String backendIP = '';
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Enter Backend Server IP'),
+          content: TextFormField(
+            decoration: const InputDecoration(
+              hintText: 'Enter IP',
+            ),
+            onChanged: (value) => setState(() {
+              backendIP = value;
+            }),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                print('Backend IP: $backendIP');
+                MySharedPreferences.setString('serverIp', backendIP);
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _performLogin() {
     FocusScope.of(context).unfocus();
@@ -47,6 +88,10 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add_link),
+        onPressed: () => _showIpInputField(context),
+      ),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
