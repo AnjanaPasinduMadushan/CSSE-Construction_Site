@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/constants.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -22,7 +23,7 @@ class _LoginViewState extends State<LoginView> {
 
       print('email: $email, pass: $password');
 
-      //TODO: Login logic
+      Navigator.pushNamed(context, '/dash');
     }
   }
 
@@ -64,7 +65,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 4,
-                  child: FittedBox(child: Image.asset('assets/images/logo.png')),
+                  child: FittedBox(child: Image.asset(CustomImages.logo)),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height / 40),
                 const Align(
