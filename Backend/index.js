@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import user_router from './routes/user.js';
 import cookieParser from 'cookie-parser';
 import material_router from './routes/material.js';
+import manager_router from './routes/manager-router.js';
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(bodyParser.json())
 app.use(cookieParser());
 app.use('/api/user', user_router);
 app.use('/api/material', material_router);
+app.use('/manager', manager_router);
+
 
 //db connection
 db();
