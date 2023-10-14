@@ -80,7 +80,7 @@ const accountRole = async (req, res, next) => {
 const supplierRole = async (req, res, next) => {
 
   try {
-    if (req.roleIs === "supplier") {
+    if (req.roleIs == "supplier") {
       next();
     } else {
       res.status(403).json("unauthorized")
@@ -91,4 +91,4 @@ const supplierRole = async (req, res, next) => {
   }
 }
 
-export { checkToken, ManagementRole, siteManagerRole, supplierRole }
+export { checkToken, ManagementRole, siteManagerRole, supplierRole, accountRole }

@@ -5,9 +5,9 @@ import { validateEmail, validatePWD } from "../validations/user-validation.js";
 
 const jwt = jsonwebtoken;
 
-const createToken = (_id) => {
+const createToken = (_id, role) => {
   // console.log(process.env.SECRET)
-  return jwt.sign({ _id }, process.env.secret, { expiresIn: '1hr' })
+  return jwt.sign({ _id,role }, process.env.secret, { expiresIn: '1hr' })
 }
 
 const signUp = async (req, res) => {
