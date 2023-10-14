@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Weblogin from './pages/Authenication/web-login';
 import Mainsignup from './pages/Authenication/main-signup';
 import ManagingStaff from './pages/Home/managingStaff';
+import MiniDrawer from './components/drawer';
 
 const App = () => {
 
@@ -11,6 +12,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      {isLogged && <MiniDrawer />}
       <Routes>
         <Route path='/managingHome' element={<ManagingStaff />} />
         <Route path='/signUp' element={<Mainsignup />} />
