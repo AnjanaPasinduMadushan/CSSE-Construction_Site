@@ -55,7 +55,7 @@ export default function SignIn() {
     e.preventDefault();
     console.log(inputs);
     try {
-      const res = await axios.post('http://localhost:5000/user/login', {
+      const res = await axios.post('http://localhost:5050/user/login', {
         email: inputs.email,
         password: inputs.password,
       });

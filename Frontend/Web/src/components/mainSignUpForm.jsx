@@ -53,7 +53,7 @@ export default function MainSignUpForm() {
     e.preventDefault();
     console.log(inputs);
     try {
-      const res = await axios.post('http://localhost:5000/user/signUp', {
+      const res = await axios.post('http://localhost:5050/user/signUp', {
         name: inputs.name,
         mobile: inputs.mobile,
         email: inputs.email,
