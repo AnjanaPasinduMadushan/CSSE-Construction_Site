@@ -12,8 +12,8 @@ import cors from 'cors';
 
 const app = express();
 
-const PORT = 5000;
-app.use(cors({ credentials: true, origin: "http://localhost:5050" }));
+const PORT = 5050;
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(bodyParser.json())
 app.use(cookieParser());
 app.use('/user', user_router)
