@@ -1,9 +1,8 @@
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,6 +11,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { autheticationActions } from './store/index.jsx';
 
 function Copyright(props) {
   return (
@@ -31,14 +34,40 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [inputs, setInputs] = React.useState({
+    email: "",
+    password: "",
+  })
+
+  const handleChange = async (e) => {
+    setInputs((previousState) => ({
+      ...previousState,
+      [e.target.name]: e.target.value
+    }))
+  }
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+    console.log(inputs);
+    try {
+      const res = await axios.post('http://localhost:5000/user/login', {
+        email: inputs.email,
+        password: inputs.password,
+      });
+      console.log(res.data.message)
+      const data = await res.data;
+      console.log(data);
+      dispatch(autheticationActions.login());
+      navigate('/managingHome');
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -68,6 +97,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={inputs.email}
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
@@ -78,10 +109,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              value={inputs.password}
+              onChange={handleChange}
             />
             <Button
               type="submit"

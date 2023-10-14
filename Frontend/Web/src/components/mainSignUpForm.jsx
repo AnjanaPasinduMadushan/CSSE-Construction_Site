@@ -1,3 +1,4 @@
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,7 +10,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 function Copyright(props) {
   return (
@@ -29,14 +31,42 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function MainSignUpForm() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+
+  const navigate = useNavigate();
+
+  const [inputs, setInputs] = React.useState({
+    name: "",
+    mobile: "",
+    email: "",
+    password: "",
+  })
+
+  const handleChange = async (e) => {
+    setInputs((previousState) => ({
+      ...previousState,
+      [e.target.name]: e.target.value
+    }))
+  }
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+    console.log(inputs);
+    try {
+      const res = await axios.post('http://localhost:5000/user/signUp', {
+        name: inputs.name,
+        mobile: inputs.mobile,
+        email: inputs.email,
+        password: inputs.password,
+      });
+      console.log(res.data.message)
+      const data = await res.data;
+      console.log(data);
+      navigate('/login');
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -66,6 +96,8 @@ export default function MainSignUpForm() {
                   fullWidth
                   id="name"
                   label="Name"
+                  value={inputs.name}
+                  onChange={handleChange}
                   autoFocus
                 />
               </Grid>
@@ -75,6 +107,8 @@ export default function MainSignUpForm() {
                   fullWidth
                   id="email"
                   label="Email Address"
+                  value={inputs.email}
+                  onChange={handleChange}
                   name="email"
                   autoComplete="email"
                 />
@@ -85,6 +119,8 @@ export default function MainSignUpForm() {
                   fullWidth
                   id="mobile"
                   label="Mobile"
+                  value={inputs.mobile}
+                  onChange={handleChange}
                   name="mobile"
                   autoComplete="mobile"
                 />
@@ -95,6 +131,8 @@ export default function MainSignUpForm() {
                   fullWidth
                   name="password"
                   label="Password"
+                  value={inputs.password}
+                  onChange={handleChange}
                   type="password"
                   id="password"
                   autoComplete="new-password"

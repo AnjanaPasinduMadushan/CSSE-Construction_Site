@@ -57,7 +57,6 @@ const signUp = async (req, res) => {
       shopName,
       shopAddress
     });
-
     await user.save();
     return res.status(201).json({ message: "Account Creation is success, Login to your account", Users: user })//sending the new user details with token as a message for the response
 
