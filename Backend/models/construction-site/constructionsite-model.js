@@ -18,6 +18,10 @@ const materialSchema = new Schema({
         type: String,
         required: true,
     },
+    province: {
+        type: String,
+        required: true,
+    },
     description: {
         type: String,
         required: true,
@@ -31,18 +35,6 @@ const materialSchema = new Schema({
         required: true,
     },
     managerID: {
-        type: String,
-        required: true,
-    },
-    managerName: {
-        type: String,
-        required: true,
-    },
-    managerEmail: {
-        type: String,
-        required: true,
-    },
-    managerPhone: {
         type: String,
         required: true,
     },

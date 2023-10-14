@@ -55,7 +55,7 @@ const updateManagerByManagerId = async (req, res) => {
     try {
         const { managerId } = req.params;
         const { managerEmail, managerName, managerPhone } = req.body;
-console.log(managerId)
+        console.log(managerId)
         // Find the manager by managerId
         const existingManager = await Manager.findOne({ managerID: managerId });
 
@@ -158,5 +158,17 @@ const getManagerByUserId = async (req, res) => {
     }
 };
 
-export { addManager, updateManagerByManagerId, deleteManager, getManagerByManagerId, getAllManagers, getManagerByUserId };
+const getAllManagerIds = async () => {
+    try {
+        const managerIds = await Manager.find({}, 'managerID');
+console.log(managerIds)
+        return managerIds;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+
+export { addManager, updateManagerByManagerId, deleteManager, getManagerByManagerId, getAllManagers, getManagerByUserId, getAllManagerIds };
 
