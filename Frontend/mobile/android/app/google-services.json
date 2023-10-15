@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "354663046537",
+    "project_id": "y3s2-csse-buildmart",
+    "storage_bucket": "y3s2-csse-buildmart.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354663046537:android:50b315bceb8fef86645558",
+        "android_client_info": {
+          "package_name": "com.example.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF3623hxxNG6Go5YfAmsTqHHkoqbmw53k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
