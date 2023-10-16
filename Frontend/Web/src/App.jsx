@@ -4,6 +4,9 @@ import Weblogin from './pages/Authenication/web-login';
 import Mainsignup from './pages/Authenication/main-signup';
 import ManagingStaff from './pages/Home/managingStaff';
 import MiniDrawer from './components/drawer';
+
+import MaterialTable from './pages/Supplier/MeterialTable';
+import AddMaterial from './pages/Supplier/MateriealAddForm'
 import SupplierSignUpForm from './components/supplierSignUpForm';
 import CreateAccounts from './pages/createAccounts/createAccounts';
 import ViewRequisitions from './components/Requisitions/viewRequisitions';
@@ -20,9 +23,14 @@ const App = () => {
         <Route path='/managingHome' element={<ManagingStaff />} />
         <Route path='/signUp' element={<Mainsignup />} />
         <Route path='/login' element={<Weblogin />} />
+
+        <Route path='/material' element={<MaterialTable />} />
+        <Route path='/addmaterial' element={<AddMaterial />} />
+
         <Route path='/supplier-signup' element={<SupplierSignUpForm />} />
         <Route path='/create-Account' element={<CreateAccounts />} />
         <Route path='/requisitions' element={<ViewRequisitions />} />
+
       </Routes>
     </BrowserRouter>
   )
