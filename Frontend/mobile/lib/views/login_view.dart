@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/constants.dart';
+import 'package:mobile/views/sites_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
+  static const routeName = "/";
   const LoginView({super.key});
 
   @override
@@ -12,6 +16,50 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // Function to display the text input popup
+  void _showIpInputField(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final TextEditingController ipController = TextEditingController();
+
+        // Load the shared preferences value
+        SharedPreferences.getInstance().then((prefs) {
+          String storedIp = prefs.getString(Strings.prefServerIp) ?? '';
+          ipController.text = storedIp;
+        });
+
+        return AlertDialog(
+          title: const Text('Enter Backend Server IP'),
+          content: TextFormField(
+            controller: ipController,
+            decoration: const InputDecoration(
+              hintText: 'Enter IP',
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                String enteredIP = ipController.text;
+                SharedPreferences.getInstance().then((prefs) {
+                  prefs.setString(Strings.prefServerIp, enteredIP);
+                });
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _performLogin() {
     FocusScope.of(context).unfocus();
 
@@ -22,7 +70,7 @@ class _LoginViewState extends State<LoginView> {
 
       print('email: $email, pass: $password');
 
-      //TODO: Login logic
+      Navigator.pushNamed(context, SitesView.routeName);
     }
   }
 
@@ -46,6 +94,10 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add_link),
+        onPressed: () => _showIpInputField(context),
+      ),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -64,7 +116,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 4,
-                  child: FittedBox(child: Image.asset('assets/images/logo.png')),
+                  child: Image.asset(CustomImages.logo),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height / 40),
                 const Align(
@@ -111,9 +163,12 @@ class _LoginViewState extends State<LoginView> {
                   validator: passwordValidator,
                   onEditingComplete: _performLogin,
                 ),
-                ElevatedButton(
-                  onPressed: _performLogin,
-                  child: const Text('Login'),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: ElevatedButton(
+                    onPressed: _performLogin,
+                    child: const Text('Login'),
+                  ),
                 ),
               ],
             ),
