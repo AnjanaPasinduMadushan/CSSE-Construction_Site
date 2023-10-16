@@ -4,6 +4,9 @@ import Weblogin from './pages/Authenication/web-login';
 import Mainsignup from './pages/Authenication/main-signup';
 import ManagingStaff from './pages/Home/managingStaff';
 import MiniDrawer from './components/drawer';
+import SupplierSignUpForm from './components/supplierSignUpForm';
+import CreateAccounts from './pages/createAccounts/createAccounts';
+import ViewRequisitions from './components/Requisitions/viewRequisitions';
 
 const App = () => {
 
@@ -17,6 +20,9 @@ const App = () => {
         <Route path='/managingHome' element={<ManagingStaff />} />
         <Route path='/signUp' element={<Mainsignup />} />
         <Route path='/login' element={<Weblogin />} />
+        <Route path='/supplier-signup' element={<SupplierSignUpForm />} />
+        <Route path='/create-Account' element={<CreateAccounts />} />
+        <Route path='/requisitions' element={<ViewRequisitions />} />
       </Routes>
     </BrowserRouter>
   )

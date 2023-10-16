@@ -7,6 +7,7 @@ import user_router from './routes/user.js';
 import material_router from './routes/material.js';
 import manager_router from './routes/manager-router.js';
 import constructionsite_router from './routes/construction-site-router.js';
+import order_router from './routes/order-route.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
@@ -20,6 +21,7 @@ app.use('/user', user_router)
 app.use('/api/material', material_router);
 app.use('/manager', manager_router);
 app.use('/constructionsite', constructionsite_router);
+app.use('/orders', order_router)
 
 //db connection
 db();
