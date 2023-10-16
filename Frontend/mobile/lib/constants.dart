@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomColors{
   static const Color lightGrey = Color(0xFFD4D4D4);
-  static const Color yellow2 = Color(0xFFE0C947);
+  static const Color darkGrey = Color(0xFF4D4D4D);
 }
 
 class CustomImages{
