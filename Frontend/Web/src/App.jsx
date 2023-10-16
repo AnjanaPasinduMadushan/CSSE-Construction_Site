@@ -4,7 +4,8 @@ import Weblogin from './pages/Authenication/web-login';
 import Mainsignup from './pages/Authenication/main-signup';
 import ManagingStaff from './pages/Home/managingStaff';
 import MiniDrawer from './components/drawer';
-
+import MaterialTable from './pages/Supplier/MeterialTable';
+import AddMaterial from './pages/Supplier/MateriealAddForm'
 const App = () => {
 
   const isLogged = useSelector((state) => state.isLogged)
@@ -17,6 +18,8 @@ const App = () => {
         <Route path='/managingHome' element={<ManagingStaff />} />
         <Route path='/signUp' element={<Mainsignup />} />
         <Route path='/login' element={<Weblogin />} />
+        <Route path='/material' element={<MaterialTable />} />
+        <Route path='/addmaterial' element={<AddMaterial />} />
       </Routes>
     </BrowserRouter>
   )
