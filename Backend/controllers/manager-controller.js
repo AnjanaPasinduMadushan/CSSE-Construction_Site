@@ -9,6 +9,15 @@ const addManager = async (req, res) => {
         let randomManagerID;
         let isUnique = false;
 
+        // Check if the email already exists in the database
+        const existingManagerbyEmail = await Manager.findOne({
+            managerEmail: ManagerDTO.managerEmail,
+        });
+
+        if (existingManagerbyEmail) {
+            return res.status(409).json({ message: "A Manager already with this email" })
+        }
+
         // Keep generating random IDs until a unique one is found
         while (!isUnique) {
             randomManagerID = "M" + Math.floor(1000 + Math.random() * 9000); // Generate a random 4-digit number
@@ -21,15 +30,6 @@ const addManager = async (req, res) => {
             if (!existingManager) {
                 isUnique = true;
             }
-        }
-
-        // Check if the generated ID already exists in the database
-        const existingManagerbyEmail = await Manager.findOne({
-            managerEmail: ManagerDTO.managerEmail,
-        });
-
-        if (existingManagerbyEmail) {
-            return res.status(409).json({ message: "A Manager already with this email" })
         }
 
         console.log("ManagerDTO", ManagerDTO);
@@ -161,7 +161,7 @@ const getManagerByUserId = async (req, res) => {
 const getAllManagerIds = async () => {
     try {
         const managerIds = await Manager.find({}, 'managerID');
-console.log(managerIds)
+        console.log(managerIds)
         return managerIds;
     } catch (error) {
         console.error(error);
