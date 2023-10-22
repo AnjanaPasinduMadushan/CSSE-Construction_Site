@@ -141,7 +141,7 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             const Divider(
-              color: CustomColors.yellow2,
+              color: CustomColors.darkGrey,
               thickness: 2,
             ),
             ListTile(
@@ -163,7 +163,7 @@ class MyDrawer extends StatelessWidget {
               },
             ),
             const Divider(
-              color: CustomColors.yellow2,
+              color: CustomColors.darkGrey,
               thickness: 2,
             ),
           ],

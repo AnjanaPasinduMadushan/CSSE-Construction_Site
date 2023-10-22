@@ -69,7 +69,7 @@ const signUp = async (req, res) => {
 
 const login = async (req, res) => {
 
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
 
   //checking whether pasword and login fields are filled or not 
   if (!email || !password) {
@@ -88,6 +88,11 @@ const login = async (req, res) => {
     const isPasswordCorrect = bcrypt.compareSync(password, loggedUser.password);
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: "Invalid password" })
+    }
+
+    // If role is sent in the req body, check it against the stored userRole
+    if(role && role != loggedUser.role){
+      return res.status(403).json({message: "Incorrect login portal"})
     }
 
     //Create and setting a cookie with the user's ID and token
