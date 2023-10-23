@@ -7,7 +7,11 @@ const OrderSchema = new Schema({
     type: String,
     default: null,
   },
-  constructionSiteName: {
+  constructionSiteId: {
+    type: String,
+    required: true
+  },
+  supplierId: {
     type: String,
     required: true
   },
