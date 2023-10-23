@@ -9,7 +9,7 @@ import AddMaterial from './pages/Supplier/MateriealAddForm'
 import SupplierSignUpForm from './components/supplierSignUpForm';
 import CreateAccounts from './pages/createAccounts/createAccounts';
 import ViewRequisitions from './components/Requisitions/viewRequisitions';
-
+import ViewInventory from './pages/Inventory/viewInventory';
 
 const App = () => {
 
@@ -31,6 +31,7 @@ const App = () => {
         <Route path='/create-Account' element={<CreateAccounts />} />
         <Route path='/requisitions' element={<ViewRequisitions />} />
 
+        <Route path='/inventory' element={<ViewInventory />} />
       </Routes>
     </BrowserRouter>
   )
