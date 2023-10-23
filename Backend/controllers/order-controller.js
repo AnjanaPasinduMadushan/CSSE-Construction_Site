@@ -19,7 +19,7 @@ const createOrder = async (req, res, next) => {
   let accountantStatus;
   let managementStatus;
   let refNo;
-  const { constructionSiteId, items, totalPrice , supplierId} = req.body;
+  const { constructionSiteId, items, totalPrice, supplierId } = req.body;
 
   if (totalPrice > 100000) {
     accountantStatus = 'pending'
@@ -66,10 +66,12 @@ const createOrder = async (req, res, next) => {
 
 const getRequestedOrders = async (req, res, next) => {
   let orders;
+  console.log('I am here')
   try {
     orders = await Orders.find({ $or: [{ accountantStatus: 'pending' }, { managementStatus: 'pending' }] });
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
   if (!orders) {
     return res.status(404).json({ message: "Nothing found" });
@@ -81,7 +83,7 @@ const getSupplierOrders = async (req, res, next) => {
   const id = req.userId;
   let orders;
   try {
-    orders = await Orders.find({ $and: [{ accountantStatus: 'approved' }, { managementStatus: 'approved' }, {supplierId: id}] });
+    orders = await Orders.find({ $and: [{ accountantStatus: 'approved' }, { managementStatus: 'approved' }, { supplierId: id }] });
   } catch (err) {
     console.log(err);
   }
@@ -91,5 +93,20 @@ const getSupplierOrders = async (req, res, next) => {
   return res.status(200).json({ orders });
 };
 
+const getOneOrder = async (req, res, next) => {
+  const id = req.params.id;
+  let orders;
+  try {
+    orders = await Orders.findById(id)
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+  if (!orders) {
+    return res.status(404).json({ message: "Nothing found" });
+  }
+  return res.status(200).json({ orders });
+};
 
-export { getAllOrders, createOrder, getRequestedOrders, getSupplierOrders }
+
+export { getAllOrders, createOrder, getRequestedOrders, getSupplierOrders, getOneOrder }
