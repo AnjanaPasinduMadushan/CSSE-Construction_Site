@@ -3,43 +3,35 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
-
-  oId: {
-    type: String,
-    required: true
-  },
-
   refNo: {
     type: String,
-    required: true
+    default: null,
   },
-
   constructionSiteName: {
     type: String,
     required: true
   },
-
   managementStatus: {
     type: String,
     enum: ["pending", "approved", "rejected"],
-    default: "pending",
+    default: "approved",
   },
-
   accountantStatus: {
     type: String,
     enum: ["pending", "approved", "rejected"],
-    default: "pending",
+    default: "approved",
   },
-
-  shopName: {
-    type: String,
-  },
-
-  shopAddress: {
-    type: String
+  items: [{
+    itemId: String,
+    quantity: Number,
+    requiredDate: Date,
+    deliveryStaus: String
+  }],
+  totalPrice: {
+    type: Number,
+    required: true
   }
-
-})
+});
 
 const Orders = mongoose.model("orders", OrderSchema);
 export default Orders;
