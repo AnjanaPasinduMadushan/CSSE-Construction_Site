@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { AES } from 'crypto-js';
 
 
 function ViewAllSites() {
@@ -62,6 +63,13 @@ function ViewAllSites() {
         const encryptedId = btoa(rowData.siteID);
         navigate(`/viewOneSite/${encryptedId}`);
     };
+
+    const handleEdit = (rowData) => {
+        const encryptedData = AES.encrypt(JSON.stringify(rowData), 'yourSecretKey').toString();
+        console.log("encryptedData, ", encryptedData)
+        navigate(`/editSite/${encodeURIComponent(encryptedData)}`);
+    };
+
     const columns = [
         {
             header: "Site Name",

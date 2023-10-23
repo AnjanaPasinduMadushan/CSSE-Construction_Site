@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AddSiteForm from './components/forms/AddSiteForm';
 import AddSite from './pages/ManagingSites/AddSite';
 import ViewOneSite from './pages/ManagingSites/ViewOneSite';
+import EditSite from './pages/ManagingSites/EditSite';
 
 const App = () => {
 
@@ -25,6 +26,7 @@ const App = () => {
         <Route path='/signUp' element={<Mainsignup />} />
         <Route path='/login' element={<Weblogin />} />
         <Route path='/addSite' element={<AddSite />} />
+        <Route path="/editSite/:rowData" element={<EditSite />} />
         <Route path='/viewOneSite/:id' element={<ViewOneSite />} />
       </Routes>
     </BrowserRouter>
