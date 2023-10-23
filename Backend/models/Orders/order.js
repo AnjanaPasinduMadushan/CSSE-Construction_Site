@@ -25,6 +25,14 @@ const OrderSchema = new Schema({
     enum: ["pending", "approved", "rejected"],
     default: "approved",
   },
+  managementComments: {
+    type: String,
+    default: ''
+  },
+  accountantComments: {
+    type: String,
+    default: ''
+  },
   items: [{
     itemId: String,
     quantity: Number,
