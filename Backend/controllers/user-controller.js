@@ -169,5 +169,25 @@ const logout = (req, res) => {
   });
 };
 
+const getAllSiteManagers = async (req, res) => {
+  try {
+    const siteManagers = await Users.find({ role: "site-manager" },);
+    console.log("siteManagers",siteManagers)
+    res.status(200).json({ siteManagers });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ message: "Error in getting site managers" });
+  }
+}
 
-export { signUp, login, getprofile, logout }
+const getSiteManagerById = async (req, res) => {
+  try {
+    const siteManager = await Users.findById(req.params.id);
+    res.status(200).json({ siteManager });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ message: "Error in getting site manager" });
+  }
+}
+
+export { signUp, login, getprofile, logout,getAllSiteManagers,getSiteManagerById }

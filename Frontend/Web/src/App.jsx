@@ -13,6 +13,7 @@ import ViewInventory from './pages/Inventory/viewInventory';
 
 import MiniDrawer from './components/drawer/Drawer.jsx';
 import ViewAllSites from './pages/ManagingSites/ViewAllSites';
+import "react-toastify/dist/ReactToastify.css";
 import AddSiteForm from './components/forms/AddSiteForm';
 import AddSite from './pages/ManagingSites/AddSite';
 

@@ -2,6 +2,7 @@ class ConstructionSiteDTO {
     constructor({
         siteName,
         location,
+        threeshold,
         address,
         province,
         description,
@@ -11,6 +12,7 @@ class ConstructionSiteDTO {
     }) {
         this.siteName = siteName;
         this.location = location;
+        this.threeshold = threeshold;
         this.address = address;
         this.province = province;
         this.description = description;
