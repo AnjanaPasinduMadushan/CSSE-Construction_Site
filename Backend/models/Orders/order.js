@@ -25,7 +25,15 @@ const OrderSchema = new Schema({
     itemId: String,
     quantity: Number,
     requiredDate: Date,
-    deliveryStaus: String
+    deliveryStatus: {
+      type: String,
+      default: 'pending'
+    },
+    isDelivered: {
+      type: Boolean,
+      default: false
+    }
+
   }],
   totalPrice: {
     type: Number,
