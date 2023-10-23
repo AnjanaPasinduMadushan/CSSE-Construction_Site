@@ -15,16 +15,15 @@ import MiniDrawer from './components/drawer/Drawer.jsx';
 import ViewAllSites from './pages/ManagingSites/ViewAllSites';
 import AddSiteForm from './components/forms/AddSiteForm';
 import AddSite from './pages/ManagingSites/AddSite';
+import OrderDetails from './components/Requisitions/orderDetails';
 
 const App = () => {
 
   const isLogged = useSelector((state) => state.isLogged)
-  console.log(isLogged);
 
   return (
     <BrowserRouter>
       {/* {isLogged && <MiniDrawer />} */}
-      <MiniDrawer />
       <Routes>
         <Route path='/managingHome' element={<ManagingStaff />} />
         <Route path='/viewSites' element={<ViewAllSites />} />
@@ -40,6 +39,8 @@ const App = () => {
 
         <Route path='/inventory' element={<ViewInventory />} />
         <Route path='/addSite' element={<AddSite />} />
+
+        <Route path='/order-details/:id' element={<OrderDetails />} />
       </Routes>
     </BrowserRouter>
   )

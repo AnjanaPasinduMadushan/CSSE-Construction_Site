@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -30,23 +31,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
 export default function ViewRequisitions() {
 
-  const [orders, setOrders] = useState([])
+  const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const res = await axios.get('http://localhost:5050/orders/');
-        if (res.data && res.data.order) {
-          setOrders(res.data.order);
-          console.log(res.data.order);
-        } else {
-          console.error('Invalid response format:', res.data);
-        }
+        const res = await axios.get('http://localhost:5050/orders/requested');
+        setOrders(res.data.orders);
+        console.log(res.data.orders);
       } catch (err) {
         console.error('Error fetching orders:', err);
       }
@@ -55,30 +50,30 @@ export default function ViewRequisitions() {
     getOrders();
   }, []);
 
+  const navigateToViewDetails = (orderId) => {
+    navigate(`/order-details/${orderId}`)
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Order ID</StyledTableCell>
-            <StyledTableCell align="right">Ref No</StyledTableCell>
-            <StyledTableCell align="right">Construction Site Name</StyledTableCell>
-            <StyledTableCell align="right">Accountant Approval Status</StyledTableCell>
-            <StyledTableCell align="right">Management Approval Status</StyledTableCell>
-            <StyledTableCell align="right">View Details</StyledTableCell>
+            <StyledTableCell align="center">Ref No</StyledTableCell>
+            <StyledTableCell align="center">Construction Site Name</StyledTableCell>
+            <StyledTableCell align="center">Accountant Approval Status</StyledTableCell>
+            <StyledTableCell align="center">Management Approval Status</StyledTableCell>
+            <StyledTableCell align="center">View Details</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {orders.map((order) => (
             <StyledTableRow key={order.oId}>
-              <StyledTableCell component="th" scope="row">
-                {order.oId}
-              </StyledTableCell>
-              <StyledTableCell align="right">{order.refNo}</StyledTableCell>
-              <StyledTableCell align="right">{order.constructionSiteName}</StyledTableCell>
-              <StyledTableCell align="right">{order.accountantStatus}</StyledTableCell>
-              <StyledTableCell align="right">{order.managementStatus}</StyledTableCell>
-              <StyledTableCell align="right"><Button>View Order Details</Button></StyledTableCell>
+              <StyledTableCell align="center">{order.refNo === null ? 'Approval Needed' : order.refNo}</StyledTableCell>
+              <StyledTableCell align="center">{order.constructionSiteName}</StyledTableCell>
+              <StyledTableCell align="center">{order.accountantStatus}</StyledTableCell>
+              <StyledTableCell align="center">{order.managementStatus}</StyledTableCell>
+              <StyledTableCell align="center"><Button onClick={() => navigateToViewDetails(order._id)}>View Order Details</Button></StyledTableCell>
               {/* Add a button or link for View Details here */}
             </StyledTableRow>
           ))}
