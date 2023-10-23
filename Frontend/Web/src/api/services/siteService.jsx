@@ -42,6 +42,12 @@ export const getConstructionSiteManagerByID = async (id) => {
   return response.data;
 };
   
+//Get One Construction Site by ID
+export const getOneConstructionSite = async (id) => {
+    const response = await apiClient.get(`constructionsite/sitebyId/${id}`);
+    return response.data;
+  };
+
   //Get all Site Managers
   export const getAllSiteManagers = async () => {
     const response = await apiClient.get(`user/getallsitemanagers`);

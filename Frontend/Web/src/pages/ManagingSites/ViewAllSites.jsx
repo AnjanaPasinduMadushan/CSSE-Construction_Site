@@ -7,6 +7,9 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+
 function ViewAllSites() {
     const [managerNames, setManagerNames] = useState({});
     const { data, isLoading, error, isError } = useQuery({
@@ -17,6 +20,8 @@ function ViewAllSites() {
     //     const response = await getConstructionSiteManagerByID(id);
     //     return response.siteManager.name;
     //   }
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data && data.length > 0) {
@@ -50,6 +55,13 @@ function ViewAllSites() {
 
         console.log(id);
     }
+
+
+
+    const handleView = (rowData) => {
+        const encryptedId = btoa(rowData.siteID);
+        navigate(`/viewOneSite/${encryptedId}`);
+    };
     const columns = [
         {
             header: "Site Name",
