@@ -38,6 +38,8 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: 'hidden',
+  backgroundColor: 'black', 
+  color: 'white', 
 });
 
 const closedMixin = (theme) => ({
@@ -46,10 +48,13 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
+  
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
+  backgroundColor: 'black', 
+  color: 'white', 
 });
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -131,7 +136,7 @@ export default function MiniDrawer() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: 'black', }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -141,9 +146,10 @@ export default function MiniDrawer() {
             sx={{
               marginRight: 5,
               ...(open && { display: "none" }),
+              color: "white",
             }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{   color: "white",}} />
           </IconButton>
           <Typography
             variant="h6"
@@ -160,7 +166,7 @@ export default function MiniDrawer() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            BUILD MART
           </Typography>
         </Toolbar>
       </AppBar>
@@ -168,9 +174,9 @@ export default function MiniDrawer() {
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
+              <ChevronRightIcon sx={{   color: "white"}}/>
             ) : (
-              <ChevronLeftIcon />
+              <ChevronLeftIcon sx={{   color: "white",}}/>
             )}
           </IconButton>
         </DrawerHeader>
@@ -202,6 +208,7 @@ export default function MiniDrawer() {
                         minWidth: 0,
                         mr: open ? 3 : "auto",
                         justifyContent: "center",
+                        color: "white",
                       }}
                       onClick={() => {
                         navigate("/shopHome");
@@ -221,6 +228,7 @@ export default function MiniDrawer() {
                           minWidth: 0,
                           mr: open ? 3 : "auto",
                           justifyContent: "center",
+                          color: "white",
                         }}
                         onClick={() => {
                           navigate("/viewSites");
@@ -240,6 +248,7 @@ export default function MiniDrawer() {
                             minWidth: 0,
                             mr: open ? 3 : "auto",
                             justifyContent: "center",
+                            color: "white",
                           }}
                           onClick={() => {
                             navigate("/verifyshopToken");
@@ -258,6 +267,7 @@ export default function MiniDrawer() {
                             minWidth: 0,
                             mr: open ? 3 : "auto",
                             justifyContent: "center",
+                            color: "white",
                           }}
                           onClick={() => {
                             navigate("/viewshopluggagehistory");
@@ -276,6 +286,7 @@ export default function MiniDrawer() {
                             minWidth: 0,
                             mr: open ? 3 : "auto",
                             justifyContent: "center",
+                            color: "white",
                           }}
                           onClick={() => {
                             navigate("/showBlogs");
@@ -299,7 +310,7 @@ export default function MiniDrawer() {
             )
           )}
         </List>
-        <Divider />
+        <Divider sx={{   color: "white",}} />
         <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
@@ -315,6 +326,7 @@ export default function MiniDrawer() {
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
+                    color: "white",
                   }}
                 >
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
