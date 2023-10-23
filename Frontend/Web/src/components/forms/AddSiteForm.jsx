@@ -12,6 +12,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { toast, ToastContainer } from 'react-toastify';
 import * as Yup from 'yup';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function AddSiteForm() {
 
@@ -26,8 +27,8 @@ function AddSiteForm() {
   const [description, setDescription] = useState('');
   const [googleMap, setgoogleMaps] = useState('');
   const [province, setProvince] = useState('');
-  const [startDate, setstartDate] = useState('');
-  const [endDate, setendDate] = useState('');
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [address, setAddress] = useState('');
 
 
@@ -46,7 +47,7 @@ function AddSiteForm() {
       }),
     address: Yup.string().required('Address is required'),
   });
-
+ const navigate = useNavigate();
   const handleSiteSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -88,12 +89,12 @@ function AddSiteForm() {
         setstartDate("");
         setendDate("");
         setAddress("");
+        navigate('/viewSites');
       });
     } catch (error) {
         if (error.errors) {
-        // Handle Yup validation errors
-        error.errors.forEach((errorMsg) => {
-          toast.error(errorMsg);
+        error.errors.map((err) => {
+          toast.error(err);
         });
       } else if (error.response) {
         toast.error('Sorry, an error occurred');
@@ -114,7 +115,7 @@ function AddSiteForm() {
   };
 
   return (
-    <>
+    <div>
       <ToastContainer />
       <Box
         sx={{
@@ -422,7 +423,7 @@ function AddSiteForm() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     value={startDate}
-                    onChange={(e) => setstartDate(e.target.value)}
+                    onChange={(date) => setStartDate(date)}
                     sx={{
                       backgroundColor: "#fafafa",
                       width: "10vw",
@@ -452,7 +453,7 @@ function AddSiteForm() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     value={endDate}
-                    onChange={(e) => setendDate(e.target.value)}
+                    onChange={(date) => setEndDate(date)}
                     sx={{
                       backgroundColor: "#fafafa",
                       width: "10vw",
@@ -522,7 +523,7 @@ function AddSiteForm() {
           </div>
         </div>
       </Box>
-    </>
+      </div>
   )
 }
 

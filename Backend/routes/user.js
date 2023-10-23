@@ -1,4 +1,4 @@
-import { signUp, login, getprofile, logout, getAllSiteManagers } from '../controllers/user-controller.js'
+import { signUp, login, getprofile, logout, getAllSiteManagers, getSiteManagerById } from '../controllers/user-controller.js'
 import { checkToken } from '../middlewares/user.js';
 import express from 'express';
 
@@ -8,6 +8,7 @@ user_router.post("/signUp", signUp);
 user_router.post("/login", login);
 user_router.post("/logout", checkToken, logout);
 user_router.get("/getallsitemanagers", getAllSiteManagers);
+user_router.get("/getsitemanagerbyid/:id", getSiteManagerById);
 user_router.get("/profile", checkToken, getprofile);
 // user_router.patch("/updateProfile", checkToken, updateAcc);
 

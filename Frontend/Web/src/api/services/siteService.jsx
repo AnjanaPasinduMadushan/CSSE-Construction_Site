@@ -18,10 +18,6 @@ export const addConstructionSite = async (
   endDate,
   managerID
 ) => {
-  const shop = {
-    ShopID: ShopID,
-    ShopName: ShopName,
-  };
   const response = await apiClient.post(`constructionsite/addConstructionSite`, {
     ConstructionSiteDTO: {
       siteName: siteName,
@@ -39,6 +35,12 @@ export const addConstructionSite = async (
   return response.data;
 };
 
+
+//Get Construction Site Manager By ID
+export const getConstructionSiteManagerByID = async (id) => {
+  const response = await apiClient.get(`user/getsitemanagerbyid/${id}`);
+  return response.data;
+};
   
   //Get all Site Managers
   export const getAllSiteManagers = async () => {

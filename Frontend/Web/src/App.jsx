@@ -5,6 +5,7 @@ import Mainsignup from './pages/Authenication/main-signup';
 import ManagingStaff from './pages/Home/managingStaff';
 import MiniDrawer from './components/drawer/Drawer.jsx';
 import ViewAllSites from './pages/ManagingSites/ViewAllSites';
+import "react-toastify/dist/ReactToastify.css";
 import AddSiteForm from './components/forms/AddSiteForm';
 import AddSite from './pages/ManagingSites/AddSite';
 

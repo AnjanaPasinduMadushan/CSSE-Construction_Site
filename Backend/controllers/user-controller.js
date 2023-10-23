@@ -175,4 +175,14 @@ const getAllSiteManagers = async (req, res) => {
   }
 }
 
-export { signUp, login, getprofile, logout,getAllSiteManagers }
+const getSiteManagerById = async (req, res) => {
+  try {
+    const siteManager = await Users.findById(req.params.id);
+    res.status(200).json({ siteManager });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ message: "Error in getting site manager" });
+  }
+}
+
+export { signUp, login, getprofile, logout,getAllSiteManagers,getSiteManagerById }
