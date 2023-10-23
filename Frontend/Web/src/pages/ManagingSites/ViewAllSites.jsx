@@ -18,7 +18,7 @@ function ViewAllSites() {
     //     return response.siteManager.name;
     //   }
 
-      useEffect(() => {
+    useEffect(() => {
         if (data && data.length > 0) {
             const managerIDs = data.map((rowData) => rowData.managerID);
             const managerNamePromises = managerIDs.map((id) =>
@@ -39,7 +39,17 @@ function ViewAllSites() {
         }
     }, [data]);
 
+    const handleDelete = async (id) => {
+        try {
+            await deleteConstructionSite(id);
+            window.location.reload();
+        }
+        catch (error) {
+            console.log(error);
+        }
 
+        console.log(id);
+    }
     const columns = [
         {
             header: "Site Name",
@@ -82,7 +92,7 @@ function ViewAllSites() {
                     <div>
                         <Button startIcon={<RemoveRedEyeIcon />} sx={{ borderRadius: "20px", color: "black" }} onClick={() => handleView(rowData)}></Button>
                         <Button startIcon={<EditIcon />} sx={{ borderRadius: "20px", color: "black", marginLeft: "2%" }} onClick={() => handleEdit(rowData)}></Button>
-                        <Button startIcon={<DeleteIcon />} sx={{ borderRadius: "20px", color: "black", marginLeft: "2%" }} onClick={() => handleDelete(rowData?._id)}></Button>
+                        <Button startIcon={<DeleteIcon />} sx={{ borderRadius: "20px", color: "black", marginLeft: "2%" }} onClick={() => handleDelete(rowData?.siteID)}></Button>
                     </div>
                 ),
             };
@@ -90,17 +100,7 @@ function ViewAllSites() {
     } else {
         mapDataWithActions = null;
     }
-    const handleDelete = async (id) => {
-        try {
-            await deleteConstructionSite(id);
-            window.location.reload();
-        }
-        catch (error) {
-            console.log(error);
-        }
 
-        console.log(id);
-    }
 
     return (
         <div>
