@@ -1,6 +1,5 @@
 import Orders from "../models/Orders/order.js";
 import Material from "../models/material/material-model.js";
-import { getAllMaterials } from "./material-controller.js";
 
 const getAllOrders = async (req, res, next) => {
   let order;
@@ -66,7 +65,6 @@ const createOrder = async (req, res, next) => {
 
 const getRequestedOrders = async (req, res, next) => {
   let orders;
-  console.log('I am here')
   try {
     orders = await Orders.find({ $or: [{ accountantStatus: 'pending' }, { managementStatus: 'pending' }] });
   } catch (err) {
@@ -97,16 +95,31 @@ const getOneOrder = async (req, res, next) => {
   const id = req.params.id;
   let orders;
   try {
-    orders = await Orders.findById(id)
+    orders = await Orders.findById(id);
+    if (!orders) {
+      return res.status(404).json({ message: "Nothing found" });
+    }
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal Server Error" });
   }
-  if (!orders) {
-    return res.status(404).json({ message: "Nothing found" });
-  }
   return res.status(200).json({ orders });
 };
 
+const getItemsInAOrder = async (req, res, next) => {
+  const { arrayIds } = req.query;
+  console.log(arrayIds)
+  try {
+    const materials = await Material.find({ _id: { $in: arrayIds } });
+    if (!materials) {
+      return res.status(404).json({ message: "Nothing founded" });
+    }
+    return res.status(200).json({ materials });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-export { getAllOrders, createOrder, getRequestedOrders, getSupplierOrders, getOneOrder }
+
+export { getAllOrders, createOrder, getRequestedOrders, getSupplierOrders, getOneOrder, getItemsInAOrder }
