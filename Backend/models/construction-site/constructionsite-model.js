@@ -10,6 +10,10 @@ const materialSchema = new Schema({
         type: String,
         required: true,
     },
+    threeshold: {
+        type: String,
+        required: true,
+    },
     location: {
         type: String,
         required: true,

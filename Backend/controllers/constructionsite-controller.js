@@ -29,6 +29,7 @@ const addConstructionSite = async (req, res) => {
         const constructionsite = new ConstructionSite({
             siteID: randomSiteID,
             siteName: ConstructionSiteDTO.siteName,
+            threeshold: ConstructionSiteDTO.threeshold,
             location: ConstructionSiteDTO.location,
             address: ConstructionSiteDTO.address,
             province: ConstructionSiteDTO.province,
