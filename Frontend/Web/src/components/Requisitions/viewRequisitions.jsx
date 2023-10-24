@@ -39,7 +39,7 @@ export default function ViewRequisitions() {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const res = await axios.get('http://localhost:5050/orders/directOrders');
+        const res = await axios.get('http://localhost:5050/orders/requested');
         setOrders(res.data.orders);
         console.log(res.data.orders);
       } catch (err) {
@@ -50,6 +50,10 @@ export default function ViewRequisitions() {
     getOrders();
   }, []);
 
+  const navigateToViewDetails = (orderId) => {
+    navigate(`/order-details/${orderId}`)
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -59,6 +63,7 @@ export default function ViewRequisitions() {
             <StyledTableCell align="center">Construction Site Name</StyledTableCell>
             <StyledTableCell align="center">Accountant Approval Status</StyledTableCell>
             <StyledTableCell align="center">Management Approval Status</StyledTableCell>
+            <StyledTableCell align="center">View Details</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -68,6 +73,7 @@ export default function ViewRequisitions() {
               <StyledTableCell align="center">{order.constructionSiteName}</StyledTableCell>
               <StyledTableCell align="center">{order.accountantStatus}</StyledTableCell>
               <StyledTableCell align="center">{order.managementStatus}</StyledTableCell>
+              <StyledTableCell align="center"><Button onClick={() => navigateToViewDetails(order._id)}>View Order Details</Button></StyledTableCell>
               {/* Add a button or link for View Details here */}
             </StyledTableRow>
           ))}
