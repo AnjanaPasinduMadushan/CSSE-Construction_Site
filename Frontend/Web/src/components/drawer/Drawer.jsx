@@ -38,8 +38,8 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: 'hidden',
-  backgroundColor: 'black', 
-  color: 'white', 
+  backgroundColor: 'black',
+  color: 'white',
 });
 
 const closedMixin = (theme) => ({
@@ -48,13 +48,13 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  
+
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
-  backgroundColor: 'black', 
-  color: 'white', 
+  backgroundColor: 'black',
+  color: 'white',
 });
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -149,7 +149,7 @@ export default function MiniDrawer() {
               color: "white",
             }}
           >
-            <MenuIcon sx={{   color: "white",}} />
+            <MenuIcon sx={{ color: "white", }} />
           </IconButton>
           <Typography
             variant="h6"
@@ -174,15 +174,15 @@ export default function MiniDrawer() {
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
-              <ChevronRightIcon sx={{   color: "white"}}/>
+              <ChevronRightIcon sx={{ color: "white" }} />
             ) : (
-              <ChevronLeftIcon sx={{   color: "white",}}/>
+              <ChevronLeftIcon sx={{ color: "white", }} />
             )}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          {["Dashboard", "Manage Sites", "Verify Token", "Luggage History", "Blogs"].map(
+          {["Manage Sites", "View Requisition", "Ongoing Orders", "create Accounts"].map(
             (text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
@@ -202,7 +202,7 @@ export default function MiniDrawer() {
                     {index % 2 === 0 ? <InboxIcon /> : <ShoppingBagIcon />}
                   </ListItemIcon> */}
 
-                  {text === "Dashboard" ? (
+                  {text === "Manage Sites" ? (
                     <><ListItemIcon
                       sx={{
                         minWidth: 0,
@@ -211,95 +211,75 @@ export default function MiniDrawer() {
                         color: "white",
                       }}
                       onClick={() => {
-                        navigate("/shopHome");
+                        navigate("/viewSites");
                       }}
                     >
-                      <InboxIcon />
+                      <ConstructionIcon />
                     </ListItemIcon>
-                    <ListItemText
+                      <ListItemText
                         primary={text}
                         sx={{ opacity: open ? 1 : 0, cursor: "pointer" }}
                         onClick={() => {
-                          navigate("/shopHome");
-                        }} /></>
-                  ) : text === "Manage Sites" ? (
-                    <><ListItemIcon
-                        sx={{
-                          minWidth: 0,
-                          mr: open ? 3 : "auto",
-                          justifyContent: "center",
-                          color: "white",
-                        }}
-                        onClick={() => {
                           navigate("/viewSites");
-                        } } 
-                      >
-                        <ConstructionIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                          primary={text}
-                          sx={{ opacity: open ? 1 : 0, cursor: "pointer" }}
-                          onClick={() => {
-                            navigate("/viewSites");
-                          } } /></>
-                  ) : text === "Verify Token" ? (
+                        }} /></>
+                  ) : text === "View Requisition" ? (
                     <><ListItemIcon
-                          sx={{
-                            minWidth: 0,
-                            mr: open ? 3 : "auto",
-                            justifyContent: "center",
-                            color: "white",
-                          }}
-                          onClick={() => {
-                            navigate("/verifyshopToken");
-                          } } 
-                        >
-                          <AssignmentTurnedInIcon />
-                        </ListItemIcon><ListItemText
-                            primary={text}
-                            sx={{ opacity: open ? 1 : 0, cursor: "pointer" }}
-                            onClick={() => {
-                              navigate("/verifyshopToken");
-                            } } /></>
-                  ): text === "Luggage History" ? (
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                        color: "white",
+                      }}
+                      onClick={() => {
+                        navigate("/requisitions");
+                      }}
+                    >
+                      <AssignmentTurnedInIcon />
+                    </ListItemIcon><ListItemText
+                        primary={text}
+                        sx={{ opacity: open ? 1 : 0, cursor: "pointer" }}
+                        onClick={() => {
+                          navigate("/requisitions");
+                        }} /></>
+                  ) : text === "Ongoing Orders" ? (
                     <><ListItemIcon
-                          sx={{
-                            minWidth: 0,
-                            mr: open ? 3 : "auto",
-                            justifyContent: "center",
-                            color: "white",
-                          }}
-                          onClick={() => {
-                            navigate("/viewshopluggagehistory");
-                          } }
-                        >
-                          <HistoryIcon />
-                        </ListItemIcon><ListItemText
-                            primary={text}
-                            sx={{ opacity: open ? 1 : 0, cursor: "pointer" }}
-                            onClick={() => {
-                              navigate("/viewshopluggagehistory");
-                            } } /></>
-                  ) :text === "Blogs" ? (
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                        color: "white",
+                      }}
+                      onClick={() => {
+                        navigate("/acceptedOrders");
+                      }}
+                    >
+                      <HistoryIcon />
+                    </ListItemIcon><ListItemText
+                        primary={text}
+                        sx={{ opacity: open ? 1 : 0, cursor: "pointer" }}
+                        onClick={() => {
+                          navigate("/acceptedOrders");
+                        }} /></>
+                  ) : text === "create Accounts" ? (
                     <><ListItemIcon
-                          sx={{
-                            minWidth: 0,
-                            mr: open ? 3 : "auto",
-                            justifyContent: "center",
-                            color: "white",
-                          }}
-                          onClick={() => {
-                            navigate("/showBlogs");
-                          } }
-                        >
-                          <ShoppingBagIcon />
-                        </ListItemIcon><ListItemText
-                            primary={text}
-                            sx={{ opacity: open ? 1 : 0, cursor: "pointer" }}
-                            onClick={() => {
-                              navigate("/showBlogs");
-                            } } /></>
-                  ): (
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                        color: "white",
+                      }}
+                      onClick={() => {
+                        navigate("/create-Account");
+                      }}
+                    >
+                      <ShoppingBagIcon />
+                    </ListItemIcon><ListItemText
+                        primary={text}
+                        sx={{ opacity: open ? 1 : 0, cursor: "pointer" }}
+                        onClick={() => {
+                          navigate("/create-Account");
+                        }} /></>
+                  ) : (
                     <ListItemText
                       primary={text}
                       sx={{ opacity: open ? 1 : 0 }}
@@ -310,7 +290,7 @@ export default function MiniDrawer() {
             )
           )}
         </List>
-        <Divider sx={{   color: "white",}} />
+        <Divider sx={{ color: "white", }} />
         <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
