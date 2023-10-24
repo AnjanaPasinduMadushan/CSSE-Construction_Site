@@ -128,8 +128,6 @@ const updateMangementStatus = async (req, res, next) => {
 
   const { status, comments } = req.body;
   const id = req.params.id;
-  console.log(id);
-  console.log(status, " ", comments)
   let refNo;
   try {
 
