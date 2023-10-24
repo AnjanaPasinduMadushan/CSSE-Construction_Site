@@ -121,5 +121,62 @@ const getItemsInAOrder = async (req, res, next) => {
   }
 };
 
+const updateMangementStatus = async (req, res, next) => {
 
-export { getAllOrders, createOrder, getRequestedOrders, getSupplierOrders, getOneOrder, getItemsInAOrder }
+  const { status, comments } = req.body;
+  const id = req.params.id;
+  console.log(id);
+  console.log(status, " ", comments)
+  let refNo;
+  try {
+
+    const orderOne = await Orders.findById(id);
+    if (orderOne.accountantStatus === "approved" && status === "approved") {
+      let uniqueNo = Math.floor(1000 + Math.random() * 9000);
+      refNo = `${uniqueNo}OR`;
+    } else if (status !== "approved") {
+      refNo = null;
+    }
+    const order = await Orders.findByIdAndUpdate(id, { managementStatus: status, managementComments: comments, refNo: refNo });
+    if (!order) {
+      return res.status(404).json({ message: "Nothing founded" });
+    }
+    console.log(order)
+    return res.status(200).json({ order });
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+
+}
+
+const updateAccountantStatus = async (req, res, next) => {
+
+  const { status, comments } = req.body;
+  const id = req.params.id;
+
+  console.log(status)
+  let refNo;
+  try {
+
+    const orderOne = await Orders.findById(id);
+    if (orderOne.managementStatus === "approved" && status === "approved") {
+      let uniqueNo = Math.floor(1000 + Math.random() * 9000);
+      refNo = `${uniqueNo}OR`;
+    } else if (status !== "approved") {
+      refNo = null;
+    }
+
+    const order = await Orders.findByIdAndUpdate(id, { accountantStatus: status, accountantComments: comments, refNo: refNo });
+    if (!order) {
+      return res.status(404).json({ message: "Nothing founded" });
+    }
+    return res.status(200).json({ order });
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+
+}
+
+export { getAllOrders, createOrder, getRequestedOrders, getSupplierOrders, getOneOrder, getItemsInAOrder, updateMangementStatus, updateAccountantStatus }

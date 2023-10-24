@@ -7,7 +7,7 @@ const jwt = jsonwebtoken;
 
 const createToken = (_id, role) => {
   // console.log(process.env.SECRET)
-  return jwt.sign({ _id,role }, process.env.secret, { expiresIn: '1hr' })
+  return jwt.sign({ _id, role }, process.env.secret, { expiresIn: '1hr' })
 }
 
 const signUp = async (req, res) => {
@@ -91,8 +91,8 @@ const login = async (req, res) => {
     }
 
     // If role is sent in the req body, check it against the stored userRole
-    if(role && role != loggedUser.role){
-      return res.status(403).json({message: "Incorrect login portal"})
+    if (role && role != loggedUser.role) {
+      return res.status(403).json({ message: "Incorrect login portal" })
     }
 
     //Create and setting a cookie with the user's ID and token
@@ -167,7 +167,7 @@ const logout = (req, res) => {
 const getAllSiteManagers = async (req, res) => {
   try {
     const siteManagers = await Users.find({ role: "site-manager" },);
-    console.log("siteManagers",siteManagers)
+    console.log("siteManagers", siteManagers)
     res.status(200).json({ siteManagers });
   } catch (err) {
     console.log(err);
@@ -178,11 +178,13 @@ const getAllSiteManagers = async (req, res) => {
 const getSiteManagerById = async (req, res) => {
   try {
     const siteManager = await Users.findById(req.params.id);
-    res.status(200).json({ siteManager });
+    console.log(req.params.id)
+    console.log(siteManager)
+    return res.status(200).json({ siteManager });
   } catch (err) {
     console.log(err);
-    res.status(404).json({ message: "Error in getting site manager" });
+    return res.status(404).json({ message: "Error in getting site manager" });
   }
 }
 
-export { signUp, login, getprofile, logout,getAllSiteManagers,getSiteManagerById }
+export { signUp, login, getprofile, logout, getAllSiteManagers, getSiteManagerById }
