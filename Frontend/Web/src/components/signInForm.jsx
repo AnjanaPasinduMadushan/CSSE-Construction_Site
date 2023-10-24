@@ -12,9 +12,10 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { autheticationActions } from './store/index.jsx';
+import { loginAction } from '../Redux/auth/authAction.jsx';
 
 function Copyright(props) {
   return (
@@ -29,15 +30,15 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
+
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-
+  const isLoggedrole = useSelector((state) => state.auth.User.role);
+  console.log("isLoggedrole", isLoggedrole)
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [inputs, setInputs] = React.useState({
     email: "",
     password: "",
@@ -55,15 +56,12 @@ export default function SignIn() {
     e.preventDefault();
     console.log(inputs);
     try {
-      const res = await axios.post('http://localhost:5050/user/login', {
-        email: inputs.email,
-        password: inputs.password,
-      });
-      console.log(res.data.message)
-      const data = await res.data;
-      console.log(data);
-      dispatch(autheticationActions.login());
+      dispatch(loginAction(inputs?.email, inputs?.password));
+      if (isLoggedrole === "management-staff") {
+        navigate('/viewSites')
+      }else{
       navigate('/managingHome');
+      }
     } catch (err) {
       console.log(err);
     }

@@ -16,6 +16,9 @@ import ViewAllSites from './pages/ManagingSites/ViewAllSites';
 import "react-toastify/dist/ReactToastify.css";
 import AddSiteForm from './components/forms/AddSiteForm';
 import AddSite from './pages/ManagingSites/AddSite';
+import ViewOneSite from './pages/ManagingSites/ViewOneSite';
+import EditSite from './pages/ManagingSites/EditSite';
+import GenerateReport from './pages/ManagingSites/GenerateReport';
 
 const App = () => {
 
@@ -27,9 +30,11 @@ const App = () => {
       {/* {isLogged && <MiniDrawer />} */}
       <MiniDrawer />
       <Routes>
+      <Route path='/' element={<Weblogin />} />
         <Route path='/managingHome' element={<ManagingStaff />} />
         <Route path='/viewSites' element={<ViewAllSites />} />
         <Route path='/signUp' element={<Mainsignup />} />
+
         <Route path='/login' element={<Weblogin />} />
 
         <Route path='/material' element={<MaterialTable />} />
@@ -41,6 +46,9 @@ const App = () => {
 
         <Route path='/inventory' element={<ViewInventory />} />
         <Route path='/addSite' element={<AddSite />} />
+        <Route path='/generateReport' element={<GenerateReport />} />
+        <Route path="/editSite/:rowData" element={<EditSite />} />
+        <Route path='/viewOneSite/:id' element={<ViewOneSite />} />
       </Routes>
     </BrowserRouter>
   )
