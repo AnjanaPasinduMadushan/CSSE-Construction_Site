@@ -1,5 +1,6 @@
 import Orders from "../models/Orders/order.js";
 import Material from "../models/material/material-model.js";
+import ConstructionSite from "../models/construction-site/constructionsite-model.js";
 
 const getAllOrders = async (req, res, next) => {
   let order;
@@ -20,7 +21,9 @@ const createOrder = async (req, res, next) => {
   let refNo;
   const { constructionSiteId, items, totalPrice, supplierId } = req.body;
 
-  if (totalPrice > 100000) {
+  const site = await ConstructionSite.findById(constructionSiteId);
+
+  if (totalPrice > site.threeshold) {
     accountantStatus = 'pending'
   }
 
