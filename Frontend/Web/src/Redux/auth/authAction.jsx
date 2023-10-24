@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { authSlice, resetState, setLoginResponse, setMessage } from "./authSlice";
-import { login, signout, signup } from "../../Api/services/authService";
+
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { login, signout } from "../../api/services/authServices";
 
 // import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 
@@ -14,7 +15,7 @@ export const loginAction = (email, password) => {
   return async (dispatch) => {
     try {
       const response = await login(email, password);
-
+console.log("response", response)
       dispatch(setLoginResponse(response));
     } catch (error) {
       dispatch(setMessage(error.response.data.message));
@@ -26,20 +27,20 @@ export const loginAction = (email, password) => {
 };
 
 //Sign Up
-export const signUpAction = (name, mobile, email, password, role) => {
-  return async (dispatch) => {
-    try {
-      const response = await signup(name, mobile, email, password, role);
-      console.log("response", response);
-      dispatch(setLoginResponse(response));
-    } catch (error) {
-      dispatch(setMessage(error.response.data.message));
-      if (error.response) {
-        toast.info(error.response.data.message)
-      }
-    }
-  };
-};
+// export const signUpAction = (name, mobile, email, password, role) => {
+//   return async (dispatch) => {
+//     try {
+//       const response = await signup(name, mobile, email, password, role);
+//       console.log("response", response);
+//       dispatch(setLoginResponse(response));
+//     } catch (error) {
+//       dispatch(setMessage(error.response.data.message));
+//       if (error.response) {
+//         toast.info(error.response.data.message)
+//       }
+//     }
+//   };
+// };
 
 //Sign Out
 export const signOutAction = () => {

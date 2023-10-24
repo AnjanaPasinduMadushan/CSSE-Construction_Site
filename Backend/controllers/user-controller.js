@@ -68,50 +68,55 @@ const signUp = async (req, res) => {
 }
 
 const login = async (req, res) => {
-
   const { email, password, role } = req.body;
 
-  //checking whether pasword and login fields are filled or not 
-  if (!email || !password) {
-    return res.status(422).json({ message: "All feilds should be filled" })
-  }
-
-  let loggedUser;
   try {
-    loggedUser = await Users.findOne({ email: email });
+    // Check if email and password are provided
+    if (!email || !password) {
+      return res.status(422).json({ message: "All fields should be filled" });
+    }
+
+    const loggedUser = await Users.findOne({ email: email });
 
     if (!loggedUser) {
-      return res.status(404).json({ message: "User is not found. Sign Up instead" })
+      return res.status(404).json({ message: "User is not found. Sign Up instead" });
     }
 
-    //checking password and comare it with exist user's password in the db
-    const isPasswordCorrect = bcrypt.compareSync(password, loggedUser.password);
+    // Check the password using bcrypt.compare
+    const isPasswordCorrect = await bcrypt.compare(password, loggedUser.password);
     if (!isPasswordCorrect) {
-      return res.status(400).json({ message: "Invalid password" })
+      return res.status(400).json({ message: "Invalid password" });
     }
 
-    // If role is sent in the req body, check it against the stored userRole
-    if (role && role != loggedUser.role) {
-      return res.status(403).json({ message: "Incorrect login portal" })
+    // If the role is provided, check it against the stored userRole
+    if (role && role !== loggedUser.role) {
+      return res.status(403).json({ message: "Incorrect login portal" });
     }
 
-    //Create and setting a cookie with the user's ID and token
+    // Create and set a cookie with the user's ID and token
     const token = createToken(loggedUser._id, loggedUser.role);
-
     res.cookie(String(loggedUser._id), token, {
       path: "/",
       expires: new Date(Date.now() + 1000 * 60 * 60),
-      httpOnly: true,//if this option isn't here cookie will be visible to the frontend
+      httpOnly: true,
       sameSite: "lax"
-    })
+    });
 
-    //we send this msg along with the token and user details
-    return res.status(200).json({ message: "Successfully logged in", ManagementStaff: loggedUser, token })
+    // Return success message along with the token and user details
+    return res.status(200).json({
+      message: "Successfully logged in",
+      ManagementStaff: loggedUser,
+      token
+    });
   } catch (err) {
-    console.log(err)
-    return res.status(500).json({ message: "Error occured during Login! Please contact server administrator", error: err });
+    console.error(err);
+    return res.status(500).json({
+      message: "Error occurred during login! Please contact the server administrator",
+      error: err.message
+    });
   }
-}
+};
+
 
 const getprofile = async (req, res) => {
 

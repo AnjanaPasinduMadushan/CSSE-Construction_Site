@@ -31,9 +31,11 @@ const App = () => {
     <BrowserRouter>
       {/* {isLogged && <MiniDrawer />} */}
       <Routes>
+      <Route path='/' element={<Weblogin />} />
         <Route path='/managingHome' element={<ManagingStaff />} />
         <Route path='/viewSites' element={<ViewAllSites />} />
         <Route path='/signUp' element={<Mainsignup />} />
+
         <Route path='/login' element={<Weblogin />} />
 
         <Route path='/material' element={<MaterialTable />} />
