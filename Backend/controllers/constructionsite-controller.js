@@ -29,6 +29,7 @@ const addConstructionSite = async (req, res) => {
         const constructionsite = new ConstructionSite({
             siteID: randomSiteID,
             siteName: ConstructionSiteDTO.siteName,
+            threeshold: ConstructionSiteDTO.threeshold,
             location: ConstructionSiteDTO.location,
             address: ConstructionSiteDTO.address,
             province: ConstructionSiteDTO.province,
@@ -51,7 +52,7 @@ const addConstructionSite = async (req, res) => {
 const updateSiterBySiteId = async (req, res) => {
     try {
         const { siteId } = req.params;
-        const { siteName, location, address, province, description, startDate, endDate, managerID } = req.body;
+        const { siteName, location, address, threeshold, province, description, startDate, endDate, managerID } = req.body;
         console.log(siteId)
         // Find the manager by managerId
         const existingSite = await ConstructionSite.findOne({ siteID: siteId });
@@ -60,20 +61,21 @@ const updateSiterBySiteId = async (req, res) => {
             return res.status(404).json({ message: "Site not found" });
         }
 
-        // Check if another site with the same name exists (excluding the current site)
-        const otherSiteWithSameName = await ConstructionSite.findOne({
-            siteName,
-            siteName: { $ne: existingSite.siteName } // Exclude the current siteName
-        });
+        // // Check if another site with the same name exists (excluding the current site)
+        // const otherSiteWithSameName = await ConstructionSite.findOne({
+        //     siteName,
+        //     siteName: { $ne: existingSite.siteName } // Exclude the current siteName
+        // });
 
-        if (otherSiteWithSameName) {
-            return res.status(409).json({ message: "Another Site already exists with this name" });
-        }
+        // if (otherSiteWithSameName) {
+        //     return res.status(409).json({ message: "Another Site already exists with this name" });
+        // }
 
         // Update site details
         existingSite.siteName = siteName;
         existingSite.location = location;
         existingSite.address = address;
+        existingSite.threeshold = threeshold;
         existingSite.province = province;
         existingSite.description = description;
         existingSite.startDate = startDate;

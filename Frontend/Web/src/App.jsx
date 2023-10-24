@@ -13,9 +13,14 @@ import ViewInventory from './pages/Inventory/viewInventory';
 
 import MiniDrawer from './components/drawer/Drawer.jsx';
 import ViewAllSites from './pages/ManagingSites/ViewAllSites';
+import "react-toastify/dist/ReactToastify.css";
 import AddSiteForm from './components/forms/AddSiteForm';
 import AddSite from './pages/ManagingSites/AddSite';
 import OrderDetails from './components/Requisitions/orderDetails';
+
+import ViewOneSite from './pages/ManagingSites/ViewOneSite';
+import EditSite from './pages/ManagingSites/EditSite';
+import GenerateReport from './pages/ManagingSites/GenerateReport';
 
 const App = () => {
 
@@ -39,8 +44,10 @@ const App = () => {
 
         <Route path='/inventory' element={<ViewInventory />} />
         <Route path='/addSite' element={<AddSite />} />
-
         <Route path='/order-details/:id' element={<OrderDetails />} />
+        <Route path='/generateReport' element={<GenerateReport />} />
+        <Route path="/editSite/:rowData" element={<EditSite />} />
+        <Route path='/viewOneSite/:id' element={<ViewOneSite />} />
       </Routes>
     </BrowserRouter>
   )
