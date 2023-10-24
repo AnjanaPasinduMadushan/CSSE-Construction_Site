@@ -1,6 +1,5 @@
 import Orders from "../models/Orders/order.js";
 import Material from "../models/material/material-model.js";
-import { getAllMaterials } from "./material-controller.js";
 
 const getAllOrders = async (req, res, next) => {
   let order;
@@ -19,15 +18,15 @@ const createOrder = async (req, res, next) => {
   let accountantStatus;
   let managementStatus;
   let refNo;
-  const { constructionSiteName, items, totalPrice } = req.body;
+  const { constructionSiteId, items, totalPrice, supplierId } = req.body;
 
   if (totalPrice > 100000) {
     accountantStatus = 'pending'
   }
 
-  const materials = await Material.find({ isRestriced: true });
+  const restrictedMaterials = await Material.find({ isRestriced: true });
 
-  const materialIds = materials.map(material => material.id);
+  const materialIds = restrictedMaterials.map(material => material.id);
 
   console.log(materialIds)
 
@@ -48,7 +47,8 @@ const createOrder = async (req, res, next) => {
     //creating a new Order
     const order = new Orders({
       refNo,
-      constructionSiteName,
+      constructionSiteId,
+      supplierId,
       managementStatus,
       accountantStatus,
       items,
@@ -69,6 +69,7 @@ const getRequestedOrders = async (req, res, next) => {
     orders = await Orders.find({ $or: [{ accountantStatus: 'pending' }, { managementStatus: 'pending' }] });
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
   if (!orders) {
     return res.status(404).json({ message: "Nothing found" });
@@ -76,4 +77,49 @@ const getRequestedOrders = async (req, res, next) => {
   return res.status(200).json({ orders });
 };
 
-export { getAllOrders, createOrder, getRequestedOrders }
+const getSupplierOrders = async (req, res, next) => {
+  const id = req.userId;
+  let orders;
+  try {
+    orders = await Orders.find({ $and: [{ accountantStatus: 'approved' }, { managementStatus: 'approved' }, { supplierId: id }] });
+  } catch (err) {
+    console.log(err);
+  }
+  if (!orders) {
+    return res.status(404).json({ message: "Nothing found" });
+  }
+  return res.status(200).json({ orders });
+};
+
+const getOneOrder = async (req, res, next) => {
+  const id = req.params.id;
+  let orders;
+  try {
+    orders = await Orders.findById(id);
+    if (!orders) {
+      return res.status(404).json({ message: "Nothing found" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+  return res.status(200).json({ orders });
+};
+
+const getItemsInAOrder = async (req, res, next) => {
+  const { arrayIds } = req.query;
+  console.log(arrayIds)
+  try {
+    const materials = await Material.find({ _id: { $in: arrayIds } });
+    if (!materials) {
+      return res.status(404).json({ message: "Nothing founded" });
+    }
+    return res.status(200).json({ materials });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+export { getAllOrders, createOrder, getRequestedOrders, getSupplierOrders, getOneOrder, getItemsInAOrder }

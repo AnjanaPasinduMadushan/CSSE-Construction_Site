@@ -7,7 +7,11 @@ const OrderSchema = new Schema({
     type: String,
     default: null,
   },
-  constructionSiteName: {
+  constructionSiteId: {
+    type: String,
+    required: true
+  },
+  supplierId: {
     type: String,
     required: true
   },
@@ -20,6 +24,14 @@ const OrderSchema = new Schema({
     type: String,
     enum: ["pending", "approved", "rejected"],
     default: "approved",
+  },
+  managementComments: {
+    type: String,
+    default: ''
+  },
+  accountantComments: {
+    type: String,
+    default: ''
   },
   items: [{
     itemId: String,
