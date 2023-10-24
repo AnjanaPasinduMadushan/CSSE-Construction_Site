@@ -10,6 +10,7 @@ import AddSiteForm from './components/forms/AddSiteForm';
 import AddSite from './pages/ManagingSites/AddSite';
 import ViewOneSite from './pages/ManagingSites/ViewOneSite';
 import EditSite from './pages/ManagingSites/EditSite';
+import GenerateReport from './pages/ManagingSites/GenerateReport';
 
 const App = () => {
 
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='/signUp' element={<Mainsignup />} />
         <Route path='/login' element={<Weblogin />} />
         <Route path='/addSite' element={<AddSite />} />
+        <Route path='/generateReport' element={<GenerateReport />} />
         <Route path="/editSite/:rowData" element={<EditSite />} />
         <Route path='/viewOneSite/:id' element={<ViewOneSite />} />
       </Routes>
