@@ -80,6 +80,22 @@ const getRequestedOrders = async (req, res, next) => {
   return res.status(200).json({ orders });
 };
 
+const getAcceptedOrders = async (req, res, next) => {
+  let orders;
+  try {
+    console.log('orders')
+    orders = await Orders.find({ $and: [{ accountantStatus: "approved" }, { managementStatus: "approved" }] });
+    console.log(orders)
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+  if (!orders) {
+    return res.status(404).json({ message: "Nothing found" });
+  }
+  return res.status(200).json({ orders });
+};
+
 const getSupplierOrders = async (req, res, next) => {
   const id = req.userId;
   let orders;
@@ -180,4 +196,4 @@ const updateAccountantStatus = async (req, res, next) => {
 
 }
 
-export { getAllOrders, createOrder, getRequestedOrders, getSupplierOrders, getOneOrder, getItemsInAOrder, updateMangementStatus, updateAccountantStatus }
+export { getAllOrders, createOrder, getRequestedOrders, getSupplierOrders, getOneOrder, getItemsInAOrder, updateMangementStatus, updateAccountantStatus, getAcceptedOrders }

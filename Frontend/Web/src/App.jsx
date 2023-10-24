@@ -21,6 +21,7 @@ import OrderDetails from './components/Requisitions/orderDetails';
 import ViewOneSite from './pages/ManagingSites/ViewOneSite';
 import EditSite from './pages/ManagingSites/EditSite';
 import GenerateReport from './pages/ManagingSites/GenerateReport';
+import AccpetedOrders from './components/Requisitions/acceptedOrders';
 
 const App = () => {
 
@@ -48,6 +49,7 @@ const App = () => {
         <Route path='/generateReport' element={<GenerateReport />} />
         <Route path="/editSite/:rowData" element={<EditSite />} />
         <Route path='/viewOneSite/:id' element={<ViewOneSite />} />
+        <Route path='/acceptedOrders' element={<AccpetedOrders />} />
       </Routes>
     </BrowserRouter>
   )

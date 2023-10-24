@@ -31,7 +31,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function ViewRequisitions() {
+export default function AccpetedOrders() {
 
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
@@ -50,29 +50,36 @@ export default function ViewRequisitions() {
     getOrders();
   }, []);
 
+  const navigateToViewDetails = (orderId) => {
+    navigate(`/order-details/${orderId}`)
+  }
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center">Ref No</StyledTableCell>
-            <StyledTableCell align="center">Construction Site Name</StyledTableCell>
-            <StyledTableCell align="center">Accountant Approval Status</StyledTableCell>
-            <StyledTableCell align="center">Management Approval Status</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {orders.map((order) => (
-            <StyledTableRow key={order.oId}>
-              <StyledTableCell align="center">{order.refNo === null ? 'Approval Needed' : order.refNo}</StyledTableCell>
-              <StyledTableCell align="center">{order.constructionSiteName}</StyledTableCell>
-              <StyledTableCell align="center">{order.accountantStatus}</StyledTableCell>
-              <StyledTableCell align="center">{order.managementStatus}</StyledTableCell>
-              {/* Add a button or link for View Details here */}
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer component={Paper} sx={{ marginTop: 8, marginLeft: 20, maxWidth: 1200 }}>
+        <center><h1>Accepted Orders</h1></center>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">Ref No</StyledTableCell>
+              <StyledTableCell align="center">Construction Site Name</StyledTableCell>
+              <StyledTableCell align="center">Accountant Approval Status</StyledTableCell>
+              <StyledTableCell align="center">Management Approval Status</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.map((order) => (
+              <StyledTableRow key={order.oId}>
+                <StyledTableCell align="center">{order.refNo === null ? 'Approval Needed' : order.refNo}</StyledTableCell>
+                <StyledTableCell align="center">{order.constructionSiteName}</StyledTableCell>
+                <StyledTableCell align="center">{order.accountantStatus}</StyledTableCell>
+                <StyledTableCell align="center">{order.managementStatus}</StyledTableCell>
+                {/* Add a button or link for View Details here */}
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }
