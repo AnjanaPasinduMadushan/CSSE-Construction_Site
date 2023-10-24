@@ -22,10 +22,11 @@ const App = () => {
       {/* {isLogged && <MiniDrawer />} */}
       <MiniDrawer />
       <Routes>
+      <Route path='/' element={<Weblogin />} />
         <Route path='/managingHome' element={<ManagingStaff />} />
         <Route path='/viewSites' element={<ViewAllSites />} />
         <Route path='/signUp' element={<Mainsignup />} />
-        <Route path='/login' element={<Weblogin />} />
+      
         <Route path='/addSite' element={<AddSite />} />
         <Route path='/generateReport' element={<GenerateReport />} />
         <Route path="/editSite/:rowData" element={<EditSite />} />
