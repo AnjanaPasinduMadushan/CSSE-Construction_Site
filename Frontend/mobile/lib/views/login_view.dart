@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mobile/constants.dart';
 import 'package:mobile/views/sites_view.dart';
+import 'package:mobile/widgets/loading_popup.dart';
+import 'package:mobile/widgets/message_popup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class LoginView extends StatefulWidget {
   static const routeName = "/";
@@ -60,17 +65,76 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void _performLogin() {
+  void _performLogin(BuildContext context) async {
     FocusScope.of(context).unfocus();
+    LoadingPopup().display(context);
 
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      // Validation passed, perform login
       final String email = _emailController.text;
       final String password = _passwordController.text;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? baseUrl = prefs.getString(Strings.prefServerIp);
 
-      print('email: $email, pass: $password');
+      if (baseUrl == null || !MyRegExps.baseUrl.hasMatch(baseUrl)) {
+        LoadingPopup().remove();
+        if (context.mounted) {
+          MessagePopUp.display(
+            context,
+            title: 'Base Url Error',
+            message: 'Either the Url has not been set, or the format is incorrect\n\nRequired format: 192.168.1.6:5050',
+          );
+        }
+        return;
+      }
 
-      Navigator.pushNamed(context, SitesView.routeName);
+      final Map<String, String> headers = {"Content-Type": "application/json"};
+      final Map<String, String> data = {
+        "email": email,
+        "password": password,
+        "role": "site-manager",
+      };
+
+      try {
+        final Uri uri = Uri.http(baseUrl, '/user/login');
+        final http.Response response = await http.post(uri, headers: headers, body: json.encode(data));
+
+        if (context.mounted) _handleResponse(context, response);
+      } catch (e) {
+        LoadingPopup().remove();
+        if (context.mounted) {
+          MessagePopUp.display(
+            context,
+            title: 'Network Error',
+            message:
+                'An error occurred while communicating with the server. Please check your connection and try again.',
+          );
+        }
+      }
+    }
+  }
+
+  void _handleResponse(BuildContext context, http.Response response) {
+    LoadingPopup().remove();
+    if (response.statusCode == 200) {
+      Navigator.pushReplacementNamed(context, SitesView.routeName);
+    } else if (response.statusCode == 404) {
+      MessagePopUp.display(
+        context,
+        title: 'User Not Found',
+        message: 'Try again and contact administration',
+      );
+    } else if (response.statusCode == 400) {
+      MessagePopUp.display(
+        context,
+        title: 'Invalid Password',
+        message: 'Please Try again.\nContact administration to reset password',
+      );
+    } else {
+      MessagePopUp.display(
+        context,
+        title: 'Login Error',
+        message: 'An error occurred during login. Please try again later.',
+      );
     }
   }
 
@@ -78,7 +142,7 @@ class _LoginViewState extends State<LoginView> {
     if (value == null || value.isEmpty) {
       return 'Please enter your email';
     }
-    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value)) {
+    if (!MyRegExps.email.hasMatch(value)) {
       return 'Please enter a valid email address';
     }
     return null; // Validation passed
@@ -161,12 +225,12 @@ class _LoginViewState extends State<LoginView> {
                   obscureText: true,
                   textInputAction: TextInputAction.done,
                   validator: passwordValidator,
-                  onEditingComplete: _performLogin,
+                  onEditingComplete: () => _performLogin(context),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 40),
                   child: ElevatedButton(
-                    onPressed: _performLogin,
+                    onPressed: () => _performLogin(context),
                     child: const Text('Login'),
                   ),
                 ),
